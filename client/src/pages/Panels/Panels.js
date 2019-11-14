@@ -13,7 +13,8 @@ class Panels extends Component {
         material: "polycarbonate",
         length: "",
         width: "",
-        thickness: ""
+        thickness: "",
+        error: false,
     };
 
     componentDidMount() {
@@ -26,10 +27,11 @@ class Panels extends Component {
             .then(res =>
                 this.setState({ 
                     panels: res.data, 
-                    material: "",
+                    material: "polycarbonate",
                     length: "",
                     width: "",
-                    thickness: ""
+                    thickness: "",
+                    error: false,
                     })
                 )
                 .catch(err => console.log(err));
@@ -46,9 +48,10 @@ class Panels extends Component {
         this.setState({
             [name]: value
         });
+        // ADD FIELD VALIDATION SET STATE OF ERROR TO TRUE
     };
 
-    handleFormSubmit = event => {
+    handleAddForm = event => {
         console.log('triggered handleFormSubmit', this.state.material && this.state.length && this.state.width && this.state.thicknes)
         event.preventDefault();
         if (this.state.material && this.state.length
@@ -64,6 +67,22 @@ class Panels extends Component {
             }
     };
 
+     handleSearchForm = event => {
+        console.log('triggered handleSearchForm')
+        if (this.state.length
+            || this.state.width || this.state.thickness) {
+                // 'SEARCH PANEL'
+                // API.savePanel({
+                //     material: this.state.material,
+                //     length: parseInt(this.state.length),
+                //     width: parseInt(this.state.width),
+                //     thickness: parseInt(this.state.thickness)
+                // })
+                    // .then(res => this.loadPanels())
+                    // .catch(err => console.log(err));
+            }
+     }
+
      handleSelectChange = event => {
          this.setState({material: event.target.value});
      }
@@ -73,7 +92,7 @@ class Panels extends Component {
         return (
             <Container fluid>
                 <Row>
-                    <Col size="md-4">
+                    <Col size="md-6 xs-12">
                         <Jumbotron>
                             <h1>Search Off-cuts</h1>
                         </Jumbotron>
@@ -103,71 +122,44 @@ class Panels extends Component {
                             />
                             <FormBtn
                                 disabled={!(this.state.length && this.state.width)}
-                                onClick={this.handleFormSubmit}
+                                onClick={this.handleSearchForm}
+                                buttonType="btn-success"
                             >
                                 Search Panels
                             </FormBtn>
-                        </form>
-                    </Col>
-                    <Col size="md-4">
-                        <Jumbotron>
-                            <h1>Add New Off-cut</h1>
-                        </Jumbotron>
-                        <form>
-                            <select>
-                                <option value="polycarbonate">Polycarbonate</option>
-                                <option value="nylon">Nylon</option>
-                                <option value="uhmwpe">UHMWPE</option>
-                            </select>
-                            <Input
-                                value={this.state.length}
-                                onChange={this.handleInputChange}
-                                name="length"
-                                placeholder="Length in mm"
-                            />
-                            <Input
-                                value={this.state.width}
-                                onChange={this.handleInputChange}
-                                name="width"
-                                placeholder="Width in mm"
-                            />
-                            <Input
-                                value={this.state.thickness}
-                                onChange={this.handleInputChange}
-                                name="thickness"
-                                placeholder="Thickness in mm"
-                            />
-                            <FormBtn
+                             <FormBtn
                                 disabled={!(this.state.length && this.state.width)}
-                                onClick={this.handleFormSubmit}
+                                onClick={this.handleAddForm}
+                                buttonType="btn-danger"
                             >
-                                Add Panel
+                                Add Panels
                             </FormBtn>
+                            
                         </form>
                     </Col>
-                    <Col size="md-4">
+                    <Col size="md-6 xs-12">
                         <Jumbotron>
                             <h1>Off-cuts List</h1>
                         </Jumbotron>
                         {this.state.panels.length ? (
                             <List>
                                 {this.state.panels.map(panel => {
-                  return (
-                    <ListItem key={panel._id}>
-                      <a href={"/" + panel._id}>
-                        <strong>
-                          {panel.material}: {panel.length} x {panel.width} x {panel.thickness} mm
-                        </strong>
-                      </a>
-                      <DeleteBtn onClick={() => this.deletePanel(panel._id)} />
-                    </ListItem>
-                  );
-                })}
-              </List>
-            ) : (
-              <h3>No Results to Display</h3>
-            )}
-          </Col>
+                                return (
+                                    <ListItem key={panel._id}>
+                                        <a href={"/" + panel._id}>
+                                            <strong>
+                                            {panel.material}: {panel.length} x {panel.width} x {panel.thickness} mm
+                                            </strong>
+                                        </a>
+                                        <DeleteBtn onClick={() => this.deletePanel(panel._id)} />
+                                    </ListItem>
+                                );
+                                })}
+                            </List>
+                        ) : (
+                        <h3>No Results to Display</h3>
+                        )}
+                    </Col>
                 </Row>
             </Container>
         );
