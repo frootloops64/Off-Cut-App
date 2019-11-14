@@ -4,9 +4,9 @@ import DeleteBtn from "../../components/DeleteBtn";
 import API from "../../utils/API";
 import { Col, Row, Container } from "../../components/Grid";
 import { List, ListItem } from "../../components/List";
-import { Input, TextArea, FormBtn } from "../../components/Form";
+import { Input, FormBtn } from "../../components/Form";
 
-// Should the dimensions be string? Or left as integer, but how?
+
 class Panels extends Component {
     state = {
         panels: [],
@@ -21,7 +21,6 @@ class Panels extends Component {
         this.loadPanels();
     }
 
-    // Should the dimensions be string? Or left as integer, but how?
     loadPanels = () => {
         API.getPanels()
             .then(res =>
@@ -48,8 +47,11 @@ class Panels extends Component {
         this.setState({
             [name]: value
         });
-        // ADD FIELD VALIDATION SET STATE OF ERROR TO TRUE
+        // if(!isNaN(length)) {
+        //     error: true;
+
     };
+        // ADD FIELD VALIDATION SET STATE OF ERROR TO TRUE
 
     handleAddForm = event => {
         console.log('triggered handleFormSubmit', this.state.material && this.state.length && this.state.width && this.state.thicknes)
@@ -67,40 +69,38 @@ class Panels extends Component {
             }
     };
 
-     handleSearchForm = event => {
+    handleSearchForm = event => {
         console.log('triggered handleSearchForm')
-        if (this.state.length
-            || this.state.width || this.state.thickness) {
-                // 'SEARCH PANEL'
-                // API.savePanel({
-                //     material: this.state.material,
-                //     length: parseInt(this.state.length),
-                //     width: parseInt(this.state.width),
-                //     thickness: parseInt(this.state.thickness)
-                // })
-                    // .then(res => this.loadPanels())
-                    // .catch(err => console.log(err));
+        if (this.state.material || this.state.length 
+        || this.state.width || this.state.thickness) {
+                API.getPanels({
+                    material: this.state.material,
+                    length: parseInt(this.state.length),
+                    width: parseInt(this.state.width),
+                    thicknes: parseInt(this.state.thickness)
+                })
+                    .then(res => this.loadPanels())
+                    .catch(err => console.log(err));
             }
-     }
+    };
 
-     handleSelectChange = event => {
+    handleSelectChange = event => {
          this.setState({material: event.target.value});
-     }
+    };
 
     render() {
-        console.log('state', this.state)
         return (
             <Container fluid>
                 <Row>
                     <Col size="md-6 xs-12">
                         <Jumbotron>
-                            <h1>Search Off-cuts</h1>
+                            <h1>Add or Search Off-cuts</h1>
                         </Jumbotron>
                         <form>
                             <select onChange={this.handleSelectChange} value={this.state.material}>
-                                <option value="polycarbonate">Polycarbonate</option>
-                                <option value="nylon">Nylon</option>
-                                <option value="uhmwpe">UHMWPE</option>
+                                <option value="Polycarbonate">Polycarbonate</option>
+                                <option value="Nylon">Nylon</option>
+                                <option value="UHMWPE">UHMWPE</option>
                             </select>
                             <Input
                                 value={this.state.length}
@@ -134,7 +134,6 @@ class Panels extends Component {
                             >
                                 Add Panels
                             </FormBtn>
-                            
                         </form>
                     </Col>
                     <Col size="md-6 xs-12">
@@ -148,7 +147,7 @@ class Panels extends Component {
                                     <ListItem key={panel._id}>
                                         <a href={"/" + panel._id}>
                                             <strong>
-                                            {panel.material}: {panel.length} x {panel.width} x {panel.thickness} mm
+                                            {panel.material}: {panel.length} x {panel.width} x {panel.thickness} mm 
                                             </strong>
                                         </a>
                                         <DeleteBtn onClick={() => this.deletePanel(panel._id)} />
