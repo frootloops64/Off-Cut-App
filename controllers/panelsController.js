@@ -14,6 +14,22 @@ module.exports = {
       .then(dbModel => res.json(dbModel))
       .catch(err => res.status(422).json(err));
   },
+  findByData: function(req, res) {
+    const {
+      material,
+      length,
+      width,
+      thickness
+    } = res.body;
+
+    db.Panel
+      .where('material', material)
+      .where('length').gte(length)
+      .where('width').gte(width)
+      .where('thickness').gte(thickness)
+      .then(dbModel => res.json(dbModel))
+      .catch(err => res.status(422).json(err));
+  },
   create: function(req, res) {
     db.Panel
       .create(req.body)

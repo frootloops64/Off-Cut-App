@@ -8,35 +8,35 @@ mongoose.connect(
 
 const panelSeed = [
   {
-    material: "Polycarbonate",
+    material: "polycarbonate",
     length: 1220,
     width: 1220,
     thickness: 3,
     date: new Date(Date.now()).valueOf() / 1000
   },
   {
-    material: "Polycarbonate",
+    material: "polycarbonate",
     length: 800,
     width: 500,
     thickness: 3,
     date: new Date(Date.now()).valueOf() / 1000
   },
   {
-    material: "Polycarbonate",
+    material: "polycarbonate",
     length: 1000,
     width: 1000,
     thickness: 3,
     date: new Date(Date.now()).valueOf() / 1000
   },
   {
-    material: "Polycarbonate",
+    material: "polycarbonate",
     length: 2000,
     width: 200,
     thickness: 3,
     date: new Date(Date.now()).valueOf() / 1000
   },
   {
-    material: "Polycarbonate",
+    material: "polycarbonate",
     length: 2440,
     width: 600,
     thickness: 3,

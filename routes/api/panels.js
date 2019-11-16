@@ -12,6 +12,9 @@ router
   .put(panelsController.update)
   .delete(panelsController.remove);
 
+router
+  .route("/search")
+  .post(panelsController.findByData);
 
 module.exports = router;
 

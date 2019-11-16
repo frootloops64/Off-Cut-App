@@ -1,7 +1,6 @@
 import React, { Component } from "react";
-import Panels from "./pages/Panels/Panels";
+import Panels from "./pages/Panels";
 import Nav from "./components/Nav";
-// import logo from "./logo.svg";
 import "./App.css";
 
 function App() {
