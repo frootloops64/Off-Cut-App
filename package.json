@@ -23,6 +23,7 @@
     "express": "^4.16.3",
     "if-env": "^1.0.4",
     "mongoose": "^5.7.10",
+    "simple-react-validator": "^1.2.4",
     "spectre.css": "^0.5.8"
   }
 }
